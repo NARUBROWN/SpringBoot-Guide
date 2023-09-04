@@ -3,15 +3,12 @@ package jpa.data.entity;
 import jpa.data.dto.request.ProductDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.hibernate.procedure.ProcedureOutputs;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@Setter
 @Table(name = "product")
 @NoArgsConstructor
 public class Product {
@@ -43,5 +40,10 @@ public class Product {
         this.stock = productDTO.getStock();
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
+    }
+
+    public void updateProduct(String name, LocalDateTime updatedAt){
+        this.name = name;
+        this.updatedAt = updatedAt;
     }
 }

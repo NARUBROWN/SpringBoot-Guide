@@ -1,14 +1,14 @@
 package jpa.data.dto.response;
 
 import jpa.data.entity.Product;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
+
 @Getter
+@NoArgsConstructor
 public class ProductResponseDto {
-    private Long number;
+    private  Long number;
     private String name;
     private int price;
     private int stock;

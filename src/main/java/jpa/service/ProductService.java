@@ -30,8 +30,7 @@ public class ProductService {
         Product updatedProduct;
         if (selectedProduct.isPresent()) {
             Product product = selectedProduct.get();
-            product.setName(name);
-            product.setUpdatedAt(LocalDateTime.now());
+            product.updateProduct(name, LocalDateTime.now());
             updatedProduct = productRepository.save(product);
         } else {
             throw new Exception();
