@@ -41,6 +41,9 @@ public class ProductControllerTest {
 
      ProductController가 가지고 있던 ProductService 객체에 Mock 객체를 주입했습니다.
      Mock 객체에는 테스트 과정에서 맡을 동작을 정의해야 합니다.
+
+     Mockito에서 제공하는 given() 메서드를 통해 이 객체에서 어떤 메서드가 호출되고 어떤 파라미터를 주입 받는지 가정한 후
+     WillReturn() 메서드를 통해 어떤 결과를 리턴할 것인지 정의하는 구조로 코드를 작성합니다.
      */
     @MockBean
     ProductService productService;
@@ -55,7 +58,23 @@ public class ProductControllerTest {
         given(productService.getProduct(123L)).willReturn(
                 new ProductResponseDto(123L, "pen", 5000, 2000));
         String productId = "123";
+        /*
+            perform() 메서드를 이용하면 서버로 URL 요청을 보내는 것 처럼 통신 테스트 코드를 작성해서
+            컨트롤러를 테스트할 수 있습니다. perform() 메서드는 MockMvcRequestBuilders에서 제공하는 HTTP 메서드로 URL을 정의해서 사용합니다.
+            이 메서드는 MockHttpServletRequestBuilders는 HTTP에 매핑되는 메서드를 제공합니다.
+            이 메서드는 MockHttpServletRequestBuilder 객체를 리턴하며, HTTP 요청 정보를 설정할 수 있게 됩니다.
 
+            perform() 메서드의 결과값으로 ResultActions 객체가 리턴되는데, 예제의 39~44번 줄과 같이 andExpect() 메서드를 사용해 결과값
+            검증을 수행할 수 있습니다. andExpect() 메서드에서는 ResultMatcher를 활용하는데 이를 위해 MockMvcResultMatchers 클래스에 정의돼 있는 메서드를 활용해
+            생성할 수 있습니다.
+
+            요청과 응답 전체 내용을 확인하려면 andDo() 메서드를 사용합니다.
+            MockMvc의 코드는 모두 합쳐져 있어 구분하기는 애매하지만 전체적인 'When-Then'의 구조를 갖추고 있음을 확인할 수 있습니다.
+
+            마지막으로 verify() 메서드는 지정된 메서드가 실행됐는지 검증하는 역할입니다.
+            일반적으로 given()에 정의된 동작과 대응합니다.
+
+        */
         mockMvc.perform(
                 get("/product?number=" + productId))
                 .andExpect(status().isOk())
