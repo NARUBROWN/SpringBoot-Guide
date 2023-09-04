@@ -29,11 +29,6 @@ public class Product {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public Product(String name, Integer price) {
-        this.name = name;
-        this.price = price;
-    }
-
     public Product(ProductDTO productDTO){
         this.name = productDTO.getName();
         this.price = productDTO.getPrice();
