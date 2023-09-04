@@ -1,6 +1,7 @@
 package jpa.data.entity;
 
 import jpa.data.dto.request.ProductDTO;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -35,6 +36,13 @@ public class Product {
         this.stock = productDTO.getStock();
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
+    }
+
+    public Product(Long number, String name, int price, int stock) {
+        this.number = number;
+        this.name = name;
+        this.price = 1000;
+        this.stock = 1234;
     }
 
     public void updateProduct(String name, LocalDateTime updatedAt){
