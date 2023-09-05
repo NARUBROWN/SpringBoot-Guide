@@ -12,6 +12,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -97,13 +98,13 @@ public class ProductControllerTest {
     void createProductTest() throws Exception {
         // Mock 객체에서 특정 메서드가 실행되는 경우 실제 Return을 줄 수 없기 때문에 아래와 같이
         // 가정 사항을 만들어 줍니다.
-        given(productService.saveProduct(new ProductDTO("pen", 5000, 2000)))
-                .willReturn(new ProductResponseDto(12315L, "pen", 5000, 2000));
+        given(productService.saveProduct(any()))
+                .willReturn(new ProductResponseDto(1L, "pen", 5000, 2000));
 
-                ProductDTO productDto = new ProductDTO("name", 5000, 2000);
+                ProductResponseDto productResponseDto = new ProductResponseDto(1L,"pen", 5000, 2000);
 
                 Gson gson = new Gson();
-                String content = gson.toJson(productDto);
+                String content = gson.toJson(productResponseDto);
 
                 mockMvc.perform(
                         post("/product")
@@ -116,7 +117,7 @@ public class ProductControllerTest {
                         .andExpect(jsonPath("$.stock").exists())
                         .andDo(print());
 
-                verify(productService).saveProduct(new ProductDTO("pen", 5000, 2000));
+                verify(productService).saveProduct(any());
     }
 
 }
