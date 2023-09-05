@@ -50,6 +50,7 @@ public class ProductControllerTest {
      Mockito에서 제공하는 given() 메서드를 통해 이 객체에서 어떤 메서드가 호출되고 어떤 파라미터를 주입 받는지 가정한 후
      WillReturn() 메서드를 통해 어떤 결과를 리턴할 것인지 정의하는 구조로 코드를 작성합니다.
      */
+
     @MockBean
     ProductService productService;
 

@@ -20,8 +20,19 @@ import static org.mockito.Mockito.verify;
     이번 예제에서는 ControllerTest와 달리 @WebMvcTest 같은 어노테이션이 선언되어 있지 않다.
 */
 public class ProductServiceTest {
-    /*  Mockito의 mock 메서드를 통해 Mock 객체로 ProductRepository를 주입 받았다.
+    /*
+        Mockito의 mock 메서드를 통해 Mock 객체로 ProductRepository를 주입 받았다.
         이 객체를 기반으로 @BeforeEach를 통해 테스트 전에 ProductService 객체를 초기화해서 사용한다.
+
+        @MockBean을 통해서도 주입 받을 수 있다.
+        @MockBean과 @Mockito의 차이점
+        @MockBean을 사용하는 방식은 스프링에 Mock 객체를 등록해서 주입 받는 형식이며
+        Mockito.mock()을 사용하는 방식은 스프링 빈에 등록하지 않고 직접 객체를 초기화 해서 사용하는 방식이다.
+        테스트 속도에 큰 차이는 없지만, 스프링을 사용하지 않는 Mock 객체를 직접 생성하는 방식이 더 빠르게 작동한다.
+
+       스프링 객체를 주입 받기 위해 클래스에 @ExtendWith(SpringExtension.class)을 사용해
+       JUnit5의 테스트에서 스프링 테스트 컨텍스트를 사용하도록 설정합니다.
+       그리고 @Autowired 어노테이션으로 주입 받는 ProductService를 주입 받기 위해 클래스에 @Import 어노테이션을 통해 사용합니다
      */
     private final ProductRepository productRepository = Mockito.mock(ProductRepository.class);
     private ProductService productService;
