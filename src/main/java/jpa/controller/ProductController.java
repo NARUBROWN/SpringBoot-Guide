@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/product")
 @RequiredArgsConstructor
 public class ProductController {
+    // 코드 변경 테스트
     private final ProductService productService;
 
     @GetMapping()
