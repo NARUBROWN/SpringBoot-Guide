@@ -23,7 +23,7 @@ public class ProductController {
     @PostMapping
     public ResponseEntity<ProductResponseDto> createProduct(@RequestBody ProductDTO productDTO) {
         ProductResponseDto productResponseDto = productService.saveProduct(productDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(productResponseDto);
+        return ResponseEntity.status(HttpStatus.OK).body(productResponseDto);
     }
 
     @PutMapping()
