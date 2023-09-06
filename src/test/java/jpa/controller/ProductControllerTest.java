@@ -1,7 +1,6 @@
 package jpa.controller;
 
 import com.google.gson.Gson;
-import jpa.data.dto.request.ProductDTO;
 import jpa.data.dto.response.ProductResponseDto;
 import jpa.service.ProductService;
 import org.junit.jupiter.api.DisplayName;
@@ -15,8 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -118,6 +116,31 @@ public class ProductControllerTest {
                         .andDo(print());
 
                 verify(productService).saveProduct(any());
+    }
+
+    @Test
+    @DisplayName("Product 데이터 수정 테스트")
+    void changeProductTest() throws Exception {
+        given(productService.changeProductName(1L, "changed"))
+                .willReturn(new ProductResponseDto(1L, "changed", 5000, 2000));
+
+                ProductResponseDto productResponseDto = new ProductResponseDto(1L, "changed", 5000, 2000);
+
+                Gson gson = new Gson();
+                String content = gson.toJson(productResponseDto);
+
+                mockMvc.perform(
+                        put("/product?number=1&name=changed")
+                                .content(content)
+                                .contentType(MediaType.APPLICATION_JSON))
+                        .andExpect(status().isOk())
+                        .andExpect(jsonPath("$.number").exists())
+                        .andExpect(jsonPath("$.name").exists())
+                        .andExpect(jsonPath("$.price").exists())
+                        .andExpect(jsonPath("$.stock").exists())
+                        .andDo(print());
+
+                verify(productService).changeProductName(1L, "changed");
     }
 
 }
