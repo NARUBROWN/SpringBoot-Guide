@@ -6,7 +6,7 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: Java CI with Maven
+name: CI/CD with Maven
 
 on:
   push:
@@ -29,3 +29,29 @@ jobs:
       run: mvn -B package --file pom.xml
     - name: Test with Maven
       run: mvn -Dtest="ProductControllerTest, ProductServiceTest"
+
+    - name: SCP Builded File
+      uses: appleboy/scp-action@v0.1.4
+      with:
+        host: ${{ secrets.RASPI_HOST }}
+        username: ${{ secrets.RASPI_USER }}
+        password: ${{ secrets.RASPI_PASSWORD }}
+        port: ${{ secrets.RASPI_SSH_PORT }}
+        source: "build/libs/*.jar"
+        target: project
+
+    - name: Deploy remote ssh commands using password
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.RASPI_HOST }}
+        username: ${{ secrets.RASPI_USER }}
+        password: ${{ secrets.RASPI_PASSWORD }}
+        port: ${{ secrets.RASPI_SSH_PORT }}
+        script: |
+          ps -ef | grep Sjpa | awk '{print $2}' | xargs kill -9
+          cd project
+          nohup java -jar *.jar spring.profiles.active=prod --server.port=8080
+          
+          
+            
+            
