@@ -1,4 +1,4 @@
-name: CI/CD with Maven
+name: Testing SpringBoot
 
 on:
   push:
