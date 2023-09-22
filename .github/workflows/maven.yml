@@ -29,7 +29,12 @@ jobs:
       run: mvn -B package --file pom.xml
     - name: Test with Maven
       run: mvn -Dtest="ProductControllerTest, ProductServiceTest"
-
+      
+    - name: List files
+      run: ls <optionally add a path> -a
+      shell: bash
+  
+        
     - name: SCP Builded File
       uses: appleboy/scp-action@master
       with:
