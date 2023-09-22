@@ -48,7 +48,6 @@ jobs:
           password: ${{ secrets.RASPI_PASSWORD }}
           port: ${{ secrets.RASPI_SSH_PORT }}
           script: |
-            ps -ef | grep Sjpa-0.0.1-SNAPSHOT | awk '{print $2}' | xargs kill -9
             cd project/github/workspace/target
             nohup java -jar Sjpa-0.0.1-SNAPSHOT.jar spring.profiles.active=prod --server.port=8080
           
