@@ -51,6 +51,3 @@ jobs:
           script: |
             cd project/github/workspace/target
             sh deploy.sh
-          
-            
-            
