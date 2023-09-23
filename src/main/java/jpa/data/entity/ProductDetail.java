@@ -21,4 +21,9 @@ public class ProductDetail {
     @OneToOne
     @JoinColumn(name = "product_number")
     private Product product;
+
+    public ProductDetail(Product product, String description) {
+        this.product = product;
+        this.description = description;
+    }
 }
