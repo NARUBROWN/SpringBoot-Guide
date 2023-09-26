@@ -41,8 +41,14 @@ public class Product {
     public Product(Long number, String name, int price, int stock) {
         this.number = number;
         this.name = name;
-        this.price = 1000;
-        this.stock = 1234;
+        this.price = price;
+        this.stock = stock;
+    }
+
+    public Product(String name, int price, int stock) {
+        this.name = name;
+        this.price = price;
+        this.stock = stock;
     }
 
     public void updateProduct(String name, LocalDateTime updatedAt){
