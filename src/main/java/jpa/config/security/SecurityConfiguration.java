@@ -33,7 +33,9 @@ public class SecurityConfiguration {
             "/swagger-ui.html/**",
             "/webjars/**",
             "/swagger/**",
-            "/sign-api/exception"
+            "/sign-api/exception",
+            "/",
+            "/csrf"
     };
 
     @Bean

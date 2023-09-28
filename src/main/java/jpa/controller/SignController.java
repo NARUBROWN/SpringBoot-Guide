@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.springframework.http.ResponseEntity.status;
-
 @RestController
 @RequestMapping("/sign-api")
 @RequiredArgsConstructor
@@ -39,7 +37,7 @@ public class SignController {
             @ApiParam(value = "이름", required = true) @RequestParam String name,
             @ApiParam(value = "권한", required = true) @RequestParam String role) {
         log.info("[signUp] 회원가입을 수행합니다. id : {}, password: ****, name : {}, role : {}", id, name, role );
-        SignUpResultDto signUpResultDto = signService.signUp(id, password, name, role);
+        SignUpResultDto signUpResultDto = signService.signUp(id, name, password, role);
         log.info("[signUp] 회원가입을 완료했습니다. id: {}", id);
         return ResponseEntity.status(HttpStatus.OK).body(signUpResultDto);
     }

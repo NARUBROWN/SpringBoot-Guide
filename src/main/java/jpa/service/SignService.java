@@ -40,9 +40,12 @@ public class SignService {
                     .build();
         }
 
-        log.info("테스트" + passwordEncoder.matches(password, user.getPassword()));
+        log.info("password : {} {}", password, user.getPassword());
+
 
         User savedUser = userRepository.save(user);
+
+        log.info(String.valueOf(passwordEncoder.matches(password, savedUser.getPassword())));
 
         log.info("[getSignUpResult] userEntity 값이 들어왔는지 확인 후 결과값 주입");
         if (!savedUser.getName().isEmpty()) {
@@ -60,6 +63,8 @@ public class SignService {
         log.info("[getSignInResult] id : {}", id);
         log.info("[getSignInResult] 패스워드 비교 수행 " + password);
         if (!passwordEncoder.matches(password, user.getPassword())) {
+            log.info("password : {} {}", password, user.getPassword());
+            log.info(String.valueOf(passwordEncoder.matches(password, user.getPassword())));
             throw new RuntimeException();
         }
         log.info("[getSignInResult] 패스워드 일치");
