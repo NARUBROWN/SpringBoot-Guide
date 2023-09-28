@@ -9,11 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -58,6 +60,7 @@ public class ProductControllerTest {
      * 테스트 코드가 포함돼 있다고 선언하는 어노테이션이며, JUnit Jupiter에서는 이 어노테이션을 감지해서 테스트 계획에 포함시킵니다.
      */
     @Test
+    @WithMockUser()
     @DisplayName("MockMvc를 통한 Product 데이터 가져오기 테스트")
     void getProductTest() throws Exception {
         given(productService.getProduct(123L)).willReturn(
@@ -81,7 +84,7 @@ public class ProductControllerTest {
 
         */
         mockMvc.perform(
-                get("/product?number=" + productId))
+                get("/product?number=" + productId).with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.number").exists())
                 .andExpect(jsonPath("$.name").exists())
@@ -92,6 +95,7 @@ public class ProductControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "test", password = "test")
     @DisplayName("Product 데이터 생성 테스트")
     void createProductTest() throws Exception {
         // Mock 객체에서 특정 메서드가 실행되는 경우 실제 Return을 줄 수 없기 때문에 아래와 같이
@@ -107,7 +111,7 @@ public class ProductControllerTest {
                 mockMvc.perform(
                         post("/product")
                                 .content(content)
-                                .contentType(MediaType.APPLICATION_JSON))
+                                .contentType(MediaType.APPLICATION_JSON).with(csrf()))
                         .andExpect(status().isOk())
                         .andExpect(jsonPath("$.number").exists())
                         .andExpect(jsonPath("$.name").exists())
@@ -119,6 +123,7 @@ public class ProductControllerTest {
     }
 
     @Test
+    @WithMockUser()
     @DisplayName("Product 데이터 수정 테스트")
     void changeProductTest() throws Exception {
         given(productService.changeProductName(1L, "changed"))
@@ -132,7 +137,7 @@ public class ProductControllerTest {
                 mockMvc.perform(
                         put("/product?number=1&name=changed")
                                 .content(content)
-                                .contentType(MediaType.APPLICATION_JSON))
+                                .contentType(MediaType.APPLICATION_JSON).with(csrf()))
                         .andExpect(status().isOk())
                         .andExpect(jsonPath("$.number").exists())
                         .andExpect(jsonPath("$.name").exists())
