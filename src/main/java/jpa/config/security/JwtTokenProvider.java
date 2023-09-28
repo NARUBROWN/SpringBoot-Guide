@@ -90,7 +90,7 @@ public class JwtTokenProvider {
         String info = Jwts.parserBuilder()
                 .setSigningKey(secretKey)
                 .build()
-                .parseClaimsJwt(token)
+                .parseClaimsJws(token)
                 .getBody()
                 .getSubject();
         log.info("[getUsername] 토큰 기반 회원 구별 정보 추출 완료, info : {}", info);
