@@ -5,9 +5,9 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,8 +16,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
+import java.security.Key;
 import java.util.Date;
 import java.util.List;
 
@@ -27,8 +26,7 @@ import java.util.List;
 public class JwtTokenProvider {
     private final UserDetailsService userDetailsService;
 
-    @Value("${springboot.jwt.secret}")
-    private String secretKey = "secretKey";
+    private Key secretKey;
 
     /*
         @PostConstruct는 해당 객체가 빈 객체로 주입된 이후 수행되는 메소드를 가리킨다.
@@ -40,7 +38,7 @@ public class JwtTokenProvider {
     @PostConstruct
     protected void init() {
         log.info("[init] JwtTokenProvider 내 secretkey 초기화 시작");
-        secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes(StandardCharsets.UTF_8));
+        this.secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS512);
         log.info("[init] JwtTokenProvider 내 secreKey 초기화 완료");
     }
 
@@ -61,10 +59,10 @@ public class JwtTokenProvider {
 
         // Jwts.builder를 사용해 토큰을 생성
         String token = Jwts.builder()
+                .signWith(secretKey)
                 .setClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(new Date(now.getTime() + tokenValidMillisecond))
-                .signWith(SignatureAlgorithm.HS512, secretKey)
                 .compact();
 
         log.info("[createToken] 토큰 생성 완료");
@@ -89,7 +87,12 @@ public class JwtTokenProvider {
     public String getUsername(String token) {
         log.info("[getUsername] 토큰 기반 회원 구별 정보 추출");
         // Jwts.parser()를 통해 secretKey를 설정하고 클레임을 추출해서 토큰을 생성할 때 넣었던 sub 값을 추출한다.
-        String info = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
+        String info = Jwts.parserBuilder()
+                .setSigningKey(secretKey)
+                .build()
+                .parseClaimsJwt(token)
+                .getBody()
+                .getSubject();
         log.info("[getUsername] 토큰 기반 회원 구별 정보 추출 완료, info : {}", info);
         return info;
     }
@@ -108,8 +111,10 @@ public class JwtTokenProvider {
     public boolean validateToken(String token) {
         log.info("[validateToken] 토큰 유효 체크 시작");
         try {
-            Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
-
+            Jws<Claims> claims = Jwts.parserBuilder()
+                    .setSigningKey(secretKey)
+                    .build()
+                    .parseClaimsJws(token);
             return !claims.getBody().getExpiration().before(new Date());
         } catch (Exception e) {
             log.info("[validateToken] 토큰 유효 체크 예외 발생");

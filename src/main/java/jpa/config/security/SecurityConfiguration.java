@@ -24,18 +24,19 @@ public class SecurityConfiguration {
             "/sign-api/sign-in",
             "/sign-api/sign-up",
             "/sign-api/exception",
-            "/v2/api-docs/**"
+            "/v3/api-docs/**"
     };
 
     private static final String[] SWAGGER_URL_ARRAY = {
-            "/v2/api-docs",
+            "/v3/api-docs",
             "/swagger-resources/**",
-            "/swagger-ui.html/**",
             "/webjars/**",
             "/swagger/**",
             "/sign-api/exception",
-            "/",
-            "/csrf"
+            "/swagger-ui/**",
+            "/apple-touch-icon-precomposed.png",
+            "/favicon.ico",
+            "/apple-touch-icon.png"
     };
 
     @Bean
@@ -50,6 +51,7 @@ public class SecurityConfiguration {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
                 .antMatchers(PERMIT_URI_ARRAY).permitAll()
+                //.antMatchers("/admin/**").hasAnyRole("ADMIN")
                 .antMatchers(HttpMethod.GET, "/product/**").permitAll()
                 .antMatchers("**exception**").permitAll()
                 .anyRequest().authenticated()

@@ -61,20 +61,18 @@ public class SignService {
         log.info("[getSignInResult] signDataHandler로 회원 정보 요청");
         User user = userRepository.getByUid(id);
         log.info("[getSignInResult] id : {}", id);
-        log.info("[getSignInResult] 패스워드 비교 수행 " + password);
         if (!passwordEncoder.matches(password, user.getPassword())) {
-            log.info("password : {} {}", password, user.getPassword());
-            log.info(String.valueOf(passwordEncoder.matches(password, user.getPassword())));
             throw new RuntimeException();
         }
         log.info("[getSignInResult] 패스워드 일치");
         log.info("[getSignInResult] SignInResultDto 객체 생성");
-        SignInResultDto signInResultDto = SignInResultDto.builder()
+
+        return SignInResultDto.builder()
+                .success(true)
+                .code(CommonResponse.SUCCESS.getCode())
+                .msg(CommonResponse.SUCCESS.getMsg())
                 .token(jwtTokenProvider.createToken(String.valueOf(user.getUid()), user.getRoles()))
                 .build();
-        log.info("[getSignInResult] SignInResultDto 객체에 값 주입");
-        new SignInResultDto(true, CommonResponse.SUCCESS.getCode(), CommonResponse.SUCCESS.getMsg());
-        return signInResultDto;
     }
 
 }
