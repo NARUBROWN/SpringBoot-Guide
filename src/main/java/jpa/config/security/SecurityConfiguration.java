@@ -30,7 +30,7 @@ public class SecurityConfiguration {
     private static final String[] SWAGGER_URL_ARRAY = {
             "/v2/api-docs",
             "/swagger-resources/**",
-            "/swagger-ui.html",
+            "/swagger-ui.html/**",
             "/webjars/**",
             "/swagger/**",
             "/sign-api/exception"

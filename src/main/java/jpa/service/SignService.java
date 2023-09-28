@@ -58,7 +58,7 @@ public class SignService {
         log.info("[getSignInResult] signDataHandler로 회원 정보 요청");
         User user = userRepository.getByUid(id);
         log.info("[getSignInResult] id : {}", id);
-        log.info("[getSignInResult] 패스워드 비교 수행");
+        log.info("[getSignInResult] 패스워드 비교 수행 " + password);
         if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new RuntimeException();
         }
