@@ -1,8 +1,8 @@
-package jpa.controller;
+package spring.controller;
 
-import jpa.data.dto.request.ProductDTO;
-import jpa.data.dto.response.ProductResponseDto;
-import jpa.service.ProductService;
+import spring.data.dto.request.ProductDTO;
+import spring.data.dto.response.ProductResponseDto;
+import spring.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
