@@ -1,4 +1,4 @@
-package jpa.data.dto.request;
+package spring.data.dto.request;
 
 import lombok.Getter;
 
