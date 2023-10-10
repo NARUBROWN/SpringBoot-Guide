@@ -1,17 +1,9 @@
-# SpringBoot-Study
-스프링부트를 공부하는 저장소 <br>
-백엔드에 대한 다양한 지식을 공부하는 곳 입니다. :)
+# SpringBoot-Guide
+스프링부트를 공부하는 저장소
 
-<h1> 목차 </h1>
-<h4>기본적인 무중단 배포 구현</h4>
-<h4>(하는 중)SQL 잘 다뤄보기</h4>
-<h4>성능 개선 해보기</h4>
+CI/CD -> TDD -> Nginx를 통한 Reverse Proxy -> Spring Security -> 부하 분산 처리를 위한 Nginx를 이용한 로드밸런싱 -> 로드밸런싱을 이용한 무중단 배포구현 (롤)(완료)
 
-
-<h2>(완료)기본적인 무중단 배포 구현해보기</h2>
-CI/CD -> TDD -> Nginx를 통한 Reverse Proxy -> Spring Security -> 부하 분산 처리를 위한 Nginx를 이용한 로드밸런싱 -> 로드밸런싱을 이용한 무중단 배포구현 (롤)
-
-<h3>CI/CD 파이프라인</h3>
+<h2>CI/CD 파이프라인</h2>
 master 브랜치에 push나 pull request 요청이 있을 경우 Action이 트리거 됨
 
 - 메이븐 빌드
@@ -26,7 +18,7 @@ master 브랜치에 push나 pull request 요청이 있을 경우 Action이 트�
 
 * 통합 테스트를 통과하지 못할 경우 배포과정은 중단되게 됨
 
-<h3>TDD(Test Driven Development) 개발 프로세스</h3>
+<h2>TDD(Test Driven Development) 개발 프로세스</h2>
 디자인 -> 테스트 코드 작성 -> 코드 개발 -> 리팩토링 -> 테스트 코드 작성 -> 디자인 수정
 <br>
 TDD가 장점을 발하는 상황
@@ -39,8 +31,5 @@ TDD가 장점을 발하는 상황
   
 - 유지보수 주체가 내가 아니게 될 것으로 예상되는 경우
 
-<h2>(하는 중)SQL 잘 다뤄보기</h2>
-JPA 복습 (하는 중) -> QueryDSL -> Mybatis
-
-<h2>(예정) 성능 개선해보기</h2>
+<h2>성능 개선</h2>
 부하 테스트 (nGrinder) -> Redis Cache를 이용해 GET 응답 개선 -> 부하 테스트 (nGrinder)
