@@ -1,4 +1,4 @@
-package spring.config;
+package jpa.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +16,7 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.OAS_30)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("spring"))
+                .apis(RequestHandlerSelectors.basePackage("jpa"))
                 .paths(PathSelectors.any())
                 .build();
     }

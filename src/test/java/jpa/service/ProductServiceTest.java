@@ -1,9 +1,9 @@
-package spring.service;
+package jpa.service;
 
-import spring.data.dto.request.ProductDTO;
-import spring.data.dto.response.ProductResponseDto;
-import spring.data.entity.Product;
-import spring.data.repository.ProductRepository;
+import jpa.data.dto.request.ProductDTO;
+import jpa.data.dto.response.ProductResponseDto;
+import jpa.data.entity.Product;
+import jpa.data.repository.ProductRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -1,9 +1,9 @@
-package spring;
+package jpa;
 
 import org.junit.jupiter.api.Test;
 
 //@SpringBootTest//
-class SpringBootStudyApplicationTests {
+class SpringBootGuideApplicationTests {
 
     @Test
     void contextLoads() {

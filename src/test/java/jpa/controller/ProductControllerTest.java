@@ -1,8 +1,8 @@
-package spring.controller;
+package jpa.controller;
 
 import com.google.gson.Gson;
-import spring.data.dto.response.ProductResponseDto;
-import spring.service.ProductService;
+import jpa.data.dto.response.ProductResponseDto;
+import jpa.service.ProductService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +11,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
-
-import java.time.LocalDateTime;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -66,14 +64,7 @@ public class ProductControllerTest {
     @DisplayName("MockMvc를 통한 Product 데이터 가져오기 테스트")
     void getProductTest() throws Exception {
         given(productService.getProduct(123L)).willReturn(
-                ProductResponseDto.builder()
-                        .number(123L)
-                        .name("pen")
-                        .price(5000)
-                        .stock(2000)
-                        .createdAt(LocalDateTime.now())
-                        .updatedAt(LocalDateTime.now())
-                        .build());
+                new ProductResponseDto(123L, "pen", 5000, 2000));
         String productId = "123";
         /*
             perform() 메서드를 이용하면 서버로 URL 요청을 보내는 것 처럼 통신 테스트 코드를 작성해서
@@ -110,25 +101,9 @@ public class ProductControllerTest {
         // Mock 객체에서 특정 메서드가 실행되는 경우 실제 Return을 줄 수 없기 때문에 아래와 같이
         // 가정 사항을 만들어 줍니다.
         given(productService.saveProduct(any()))
-                .willReturn(
-                        ProductResponseDto.builder()
-                        .number(123L)
-                        .name("pen")
-                        .price(5000)
-                        .stock(2000)
-                        .createdAt(LocalDateTime.now())
-                        .updatedAt(LocalDateTime.now())
-                        .build());
+                .willReturn(new ProductResponseDto(1L, "pen", 5000, 2000));
 
-                ProductResponseDto productResponseDto =
-                        ProductResponseDto.builder()
-                        .number(123L)
-                        .name("pen")
-                        .price(5000)
-                        .stock(2000)
-                        .createdAt(LocalDateTime.now())
-                        .updatedAt(LocalDateTime.now())
-                        .build();
+                ProductResponseDto productResponseDto = new ProductResponseDto(1L,"pen", 5000, 2000);
 
                 Gson gson = new Gson();
                 String content = gson.toJson(productResponseDto);
@@ -152,26 +127,9 @@ public class ProductControllerTest {
     @DisplayName("Product 데이터 수정 테스트")
     void changeProductTest() throws Exception {
         given(productService.changeProductName(1L, "changed"))
-                .willReturn(
-                        ProductResponseDto.builder()
-                                .number(1L)
-                                .name("pen")
-                                .price(5000)
-                                .stock(2000)
-                                .createdAt(LocalDateTime.now())
-                                .updatedAt(LocalDateTime.now())
-                                .build()
-                );
+                .willReturn(new ProductResponseDto(1L, "changed", 5000, 2000));
 
-                ProductResponseDto productResponseDto =
-                        ProductResponseDto.builder()
-                        .number(1L)
-                        .name("pen")
-                        .price(5000)
-                        .stock(2000)
-                        .createdAt(LocalDateTime.now())
-                        .updatedAt(LocalDateTime.now())
-                        .build();
+                ProductResponseDto productResponseDto = new ProductResponseDto(1L, "changed", 5000, 2000);
 
                 Gson gson = new Gson();
                 String content = gson.toJson(productResponseDto);

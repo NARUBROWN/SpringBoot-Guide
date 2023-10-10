@@ -1,12 +1,13 @@
-package spring.service;
+package jpa.service;
 
-import spring.data.dto.request.ProductDTO;
-import spring.data.dto.response.ProductResponseDto;
-import spring.data.entity.Product;
-import spring.data.repository.ProductRepository;
+import jpa.data.dto.request.ProductDTO;
+import jpa.data.dto.response.ProductResponseDto;
+import jpa.data.entity.Product;
+import jpa.data.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 // 이번에는 진짜 진짜 진짜 될걸???? 다시 한번 더!
@@ -30,7 +31,7 @@ public class ProductService {
         Product updatedProduct;
         if (selectedProduct.isPresent()) {
             Product product = selectedProduct.get();
-            product.updateProduct(name);
+            product.updateProduct(name, LocalDateTime.now());
             updatedProduct = productRepository.save(product);
         } else {
             throw new Exception();
