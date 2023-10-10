@@ -29,7 +29,7 @@ jobs:
           username: ${{ secrets.RASPI_USER }}
           password: ${{ secrets.RASPI_PASSWORD }}
           port: ${{ secrets.RASPI_SSH_PORT }}
-          source: "/home/runner/work/SpringBoot-Guide/SpringBoot-Study/target/*.jar"
+          source: "/home/runner/work/SpringBoot-Study/SpringBoot-Study/target/*.jar"
           target: project
 
       - name: Deploy remote ssh commands using password
