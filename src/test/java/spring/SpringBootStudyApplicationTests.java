@@ -3,7 +3,7 @@ package spring;
 import org.junit.jupiter.api.Test;
 
 //@SpringBootTest//
-class SpringBootGuideApplicationTests {
+class SpringBootStudyApplicationTests {
 
     @Test
     void contextLoads() {
