@@ -1,8 +1,10 @@
 package jpa.data.entity;
 
 import jpa.data.dto.request.ProductDTO;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -29,6 +31,10 @@ public class Product {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
+    @OneToOne(mappedBy = "product") // 양방향 관계에서 mappedBy = "table_name"을 활용하여 주인 관계 설정, 외래키를 주인쪽에서 가질 수 있도록 해줌
+    @ToString.Exclude  //  양방향 관계에서는 순환참조가 발생하기 때문에, Exclude를 사용하여 ToString을 제외시켜준다.
+    private ProductDetail productDetail;
+
     public Product(ProductDTO productDTO){
         this.name = productDTO.getName();
         this.price = productDTO.getPrice();
@@ -37,6 +43,7 @@ public class Product {
         this.updatedAt = LocalDateTime.now();
     }
 
+    @Builder
     public Product(Long number, String name, int price, int stock) {
         this.number = number;
         this.name = name;
