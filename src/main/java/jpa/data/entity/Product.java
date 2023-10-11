@@ -8,6 +8,8 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -41,6 +43,10 @@ public class Product extends BaseTimeEntity {
     @ToString.Exclude
     private Provider provider;
 
+    @ManyToMany // ManyToMany 다대다 양방향 매핑
+    @ToString.Exclude
+    private List<Producer> producers = new ArrayList<>();
+
     public Product(ProductDTO productDTO){
         this.name = productDTO.getName();
         this.price = productDTO.getPrice();
@@ -67,5 +73,9 @@ public class Product extends BaseTimeEntity {
     public void updateProduct(String name, LocalDateTime updatedAt){
         this.name = name;
         this.updatedAt = updatedAt;
+    }
+
+    public void addProducer(Producer producer) {
+        this.producers.add(producer);
     }
 }
