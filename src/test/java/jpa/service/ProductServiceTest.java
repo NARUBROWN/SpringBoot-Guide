@@ -45,7 +45,12 @@ public class ProductServiceTest {
     @Test
     void getProductTest() {
         // Given에 해당 되는 밑 구문은 Product Entity를 만든다.
-        Product givenProduct = new Product(123L, "펜", 1000, 1234);
+        Product givenProduct = Product.builder()
+                .number(123L)
+                .name("pen")
+                .price(1000)
+                .stock(1234)
+                .build();
 
         Mockito.when(productRepository.findById(123L))
                 .thenReturn(Optional.of(givenProduct));
