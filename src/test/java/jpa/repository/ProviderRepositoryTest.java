@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @SpringBootTest
@@ -117,5 +118,47 @@ public class ProviderRepositoryTest {
         provider.getProductList().addAll(Lists.newArrayList(product1, product2, product3));
 
         providerRepository.save(provider);
+    }
+
+    @Test
+    @Transactional
+    void orphanRemovalTest() {
+        Provider provider = Provider.builder()
+                .name("새로운 공급업체")
+                .build();
+
+        Product product1 = Product.builder()
+                .name("상품1")
+                .stock(1000)
+                .price(1000)
+                .provider(provider)
+                .build();
+
+        Product product2 = Product.builder()
+                .name("상품2")
+                .stock(500)
+                .price(1500)
+                .provider(provider)
+                .build();
+
+        Product product3 = Product.builder()
+                .name("상품3")
+                .stock(750)
+                .price(500)
+                .provider(provider)
+                .build();
+
+        provider.getProductList().addAll(Lists.newArrayList(product1, product2, product3));
+
+        providerRepository.saveAndFlush(provider); //
+        providerRepository.findAll().forEach(System.out::println);
+        productRepository.findAll().forEach(System.out::println);
+
+        Provider foundProvider = providerRepository.findById(1L).get();
+        foundProvider.getProductList().remove(0);
+
+        providerRepository.findAll().forEach(System.out::println);
+        productRepository.findAll().forEach(System.out::println);
+
     }
 }
