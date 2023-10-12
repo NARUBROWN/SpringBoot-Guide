@@ -5,6 +5,7 @@ import jpa.data.entity.Provider;
 import jpa.data.repository.ProductRepository;
 import jpa.data.repository.ProviderRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -84,5 +85,37 @@ public class ProviderRepositoryTest {
         for(Product product :  products) {
             log.info(product.getName());
         }
+    }
+
+    @Test
+    void cascadeTest() {
+        Provider provider = Provider.builder()
+                .name("새로운 공급업체")
+                .build();
+
+        Product product1 = Product.builder()
+                .name("상품1")
+                .stock(1000)
+                .price(1000)
+                .provider(provider)
+                .build();
+
+        Product product2 = Product.builder()
+                .name("상품2")
+                .stock(500)
+                .price(1500)
+                .provider(provider)
+                .build();
+
+        Product product3 = Product.builder()
+                .name("상품3")
+                .stock(750)
+                .price(500)
+                .provider(provider)
+                .build();
+
+        provider.getProductList().addAll(Lists.newArrayList(product1, product2, product3));
+
+        providerRepository.save(provider);
     }
 }
