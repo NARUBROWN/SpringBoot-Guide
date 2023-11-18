@@ -32,6 +32,9 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String name;
 
+    @Column
+    private String refreshToken;
+
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
     private List<String> roles = new ArrayList<>();
@@ -70,5 +73,9 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public void updateRefreshToken(String token) {
+        this.refreshToken = token;
     }
 }
