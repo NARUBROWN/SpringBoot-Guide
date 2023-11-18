@@ -42,6 +42,11 @@ public class SignController {
         return ResponseEntity.status(HttpStatus.OK).body(signUpResultDto);
     }
 
+    @GetMapping("/refresh")
+    public ResponseEntity<SignInResultDto> getNewRefreshToken(String refreshToken) throws Exception {
+        return ResponseEntity.status(HttpStatus.OK).body(signService.crateNewRefreshToken(refreshToken));
+    }
+
     @GetMapping(value = "/exception")
     public void exceptionTest() throws RuntimeException {
         throw new RuntimeException("접근이 금지되었습니다.");

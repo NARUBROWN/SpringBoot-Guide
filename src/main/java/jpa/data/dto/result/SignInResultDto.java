@@ -11,10 +11,10 @@ public class SignInResultDto {
     private boolean success;
     private int code;
     private String msg;
-    private String token;
+    private String[] token;
 
     @Builder
-    public SignInResultDto(boolean success, int code, String msg, String token) {
+    public SignInResultDto(boolean success, int code, String msg, String[] token) {
         this.success = success;
         this.code = code;
         this.msg = msg;

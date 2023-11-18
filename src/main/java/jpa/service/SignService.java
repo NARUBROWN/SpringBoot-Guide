@@ -12,6 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 
 @Service
 @Slf4j
@@ -66,13 +68,50 @@ public class SignService {
         }
         log.info("[getSignInResult] 패스워드 일치");
         log.info("[getSignInResult] SignInResultDto 객체 생성");
+        // Refresh Token 정보를 DB에 저장
+        user.updateRefreshToken(jwtTokenProvider.createRefreshToken(user.getUid()));
+        userRepository.save(user);
 
         return SignInResultDto.builder()
                 .success(true)
                 .code(CommonResponse.SUCCESS.getCode())
                 .msg(CommonResponse.SUCCESS.getMsg())
-                .token(jwtTokenProvider.createToken(String.valueOf(user.getUid()), user.getRoles()))
+                .token(new String[]{
+                        jwtTokenProvider.createAccessToken(String.valueOf(user.getUid()), user.getRoles()),
+                        userRepository.getByUid(id).getRefreshToken()
+                })
                 .build();
     }
 
+    public SignInResultDto crateNewRefreshToken(String token) throws Exception {
+        // 토큰에서 유저 아이디 추출
+        String uid = jwtTokenProvider.getUsername(token);
+        if (Objects.equals(token, userRepository.getByUid(uid).getRefreshToken())) {
+            log.info(token, userRepository.getByUid(uid).getRefreshToken());
+            // DB 토큰과 요청 받은 토큰이 일치한다면
+            // 새로운 리프레쉬 토큰을 발급
+            String newRefreshToken = jwtTokenProvider.createRefreshToken(uid);
+            // 새로운 리프레쉬 토큰을 DB에 저장
+            User user = userRepository.getByUid(uid);
+            user.updateRefreshToken(newRefreshToken);
+            userRepository.save(user);
+            return SignInResultDto.builder()
+                    .success(true)
+                    .code(CommonResponse.SUCCESS.getCode())
+                    .msg(CommonResponse.SUCCESS.getMsg())
+                    .token(new String[]{
+                            jwtTokenProvider.createAccessToken(uid, getUserRoles(uid)),
+                            newRefreshToken
+                    })
+                    .build();
+        } else {
+            throw new Exception("오류");
+        }
+        }
+
+
+
+    public List<String> getUserRoles(String uid) {
+        return userRepository.getByUid(uid).getRoles();
+    }
 }

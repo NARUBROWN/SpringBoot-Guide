@@ -42,8 +42,8 @@ public class JwtTokenProvider {
         log.info("[init] JwtTokenProvider 내 secreKey 초기화 완료");
     }
 
-    public String createToken(String userUid, List<String> roles) {
-        log.info("[createToken] 토큰 생성 시작");
+    public String createAccessToken(String userUid, List<String> roles) {
+        log.info("[createAccessToken] 토큰 생성 시작");
         /*
             JWT 토큰의 내용에 값을 넣기 위해 Clamis 객체를 생성한다.
             setSubject() 메서드를 통해 sub 속성에 값을 추가하려면 User의 uid 값을 사용합니다.
@@ -55,7 +55,7 @@ public class JwtTokenProvider {
         claims.put("roles", roles);
         Date now = new Date();
 
-        long tokenValidMillisecond = 1000L * 60 * 60;
+        long tokenValidMillisecond = 1000L * 60 * 30;
 
         // Jwts.builder를 사용해 토큰을 생성
         String token = Jwts.builder()
@@ -66,6 +66,27 @@ public class JwtTokenProvider {
                 .compact();
 
         log.info("[createToken] 토큰 생성 완료");
+        return token;
+    }
+
+    public String createRefreshToken(String userUid) {
+        log.info("[createRefreshToken] 토큰 생성 시작");
+
+        Claims claims = Jwts.claims().setSubject(userUid);
+
+        Date now = new Date();
+
+        long tokenValidMillisecond = 1000L * 60 * 60 * 60 * 24 * 7;
+
+        // Jwts.builder를 사용해 토큰을 생성
+        String token = Jwts.builder()
+                .signWith(secretKey)
+                .setClaims(claims)
+                .setIssuedAt(now)
+                .setExpiration(new Date(now.getTime() + tokenValidMillisecond))
+                .compact();
+
+        log.info("[createRefreshToken] 토큰 생성 완료");
         return token;
     }
 

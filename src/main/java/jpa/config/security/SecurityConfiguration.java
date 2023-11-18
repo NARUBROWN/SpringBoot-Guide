@@ -23,6 +23,7 @@ public class SecurityConfiguration {
     private static final String[] PERMIT_URI_ARRAY = {
             "/sign-api/sign-in",
             "/sign-api/sign-up",
+            "/sign-api/refresh",
             "/sign-api/exception",
             "/v3/api-docs/**"
     };
