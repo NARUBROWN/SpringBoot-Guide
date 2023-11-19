@@ -1,7 +1,10 @@
-# SpringBoot-Guide
-핵심 스프링부트 가이드를 공부하는 저장소
+# SpringBoot-Study
+스프링부트를 공부하는 저장소
 
-CI/CD -> TDD -> Nginx를 통한 Reverse Proxy -> Spring Security -> 부하 분산 처리를 위한 Nginx를 이용한 로드밸런싱 -> 로드밸런싱을 이용한 무중단 배포구현 (롤)(완료)
+<h2>서버 배포(완료)</h2>
+CI/CD -> TDD -> Nginx를 통한 Reverse Proxy -> Spring Security -> 부하 분산 처리를 위한 Nginx를 이용한 로드밸런싱 -> 로드밸런싱을 이용한 무중단 배포구현 (롤) (완료)
+<h2>응용 과정</h2>
+Spring Security RefreshToken 구현 (완료) -> JPA 고급 사용 -> OAuth 구현
 
 <h2>CI/CD 파이프라인</h2>
 master 브랜치에 push나 pull request 요청이 있을 경우 Action이 트리거 됨
