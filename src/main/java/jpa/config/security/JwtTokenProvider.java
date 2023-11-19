@@ -54,8 +54,12 @@ public class JwtTokenProvider {
         */
         claims.put("roles", roles);
         Date now = new Date();
-
-        long tokenValidMillisecond = 1000L * 60 * 30;
+        // 밀리초단위 0.001초가 1밀리초
+        // 1000L는 1초
+        // 1000L * 60 = 1분
+        // 1 * 30은 30분
+        // AccessToken은 5분으로 설정
+        long tokenValidMillisecond = 1000L * 60 * 5;
 
         // Jwts.builder를 사용해 토큰을 생성
         String token = Jwts.builder()
@@ -76,7 +80,9 @@ public class JwtTokenProvider {
 
         Date now = new Date();
 
-        long tokenValidMillisecond = 1000L * 60 * 60 * 60 * 24 * 7;
+        // 1000L * 60 * 60 * 60 * 24 * 7은 일주일 1000L은 1초 *60은 1분 *60은 1시간 *24는 24시간 *7은 1주일
+        // 1000L * 60 * 30은 30분
+        long tokenValidMillisecond = 1000L * 60 * 30;
 
         // Jwts.builder를 사용해 토큰을 생성
         String token = Jwts.builder()
